@@ -8,6 +8,7 @@ function Snake(startpos, colour){
 // Object for the snakes
 // Take start position and colour as arguments
 
+	var self = this;
 	this.dir = 0; // Right
 	this.segs = [];
 	this.segs.push(startpos);
@@ -41,5 +42,14 @@ function Snake(startpos, colour){
 		return this.segs[0];
 		
 	}
+
+	this.asThings = function asThings(){
+		things = [];
+		for (i = 0; i < this.segs.length; i++)
+			things.push({x: this.segs[i].x, y: this.segs[i].y, colour: this.col});
+		return things;
+	}
+
+	return self;
 
 }
