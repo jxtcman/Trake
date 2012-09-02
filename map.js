@@ -1,12 +1,12 @@
 
-function Map(canvas, sizex, sizey, bgcolor){
+function Map(canvas, sizex, sizey, bgcolour){
 	// Draws the map given game data
 	var self = this;
 	this.canvas = canvas;
 	this.ctx = this.canvas.getContext("2d");
 	this.height = sizey;
 	this.width = sizex;
-	this.bgcolor = (bgcolor !== undefined) ? bgcolor : "white";
+	this.bgcolour = (bgcolour !== undefined) ? bgcolour : "black";
 	this.cellh = this.canvas.height / this.height;
 	this.cellw = this.canvas.width / this.width;
 
@@ -17,23 +17,20 @@ function Map(canvas, sizex, sizey, bgcolor){
 
 	this.drawCell = function drawCell(x, y, col){
 		// Draws a cell a colour with a white outline
-		this.ctx.fillStyle = col;
+		try{
+		this.ctx.fillStyle = col; } catch(err){ console.log(col, err); }
 		this.ctx.fillRect(x * this.cellw, y * this.cellh,
 						this.cellw, this.cellh);
-		this.ctx.fillStyle = bgcolor;
+		this.ctx.fillStyle = this.bgcolour;
 		this.ctx.strokeRect(x * this.cellw, y * this.cellh,
 						this.cellw, this.cellh);
 	}
 
-	// Fill in colour map blank based on bgcolor
+	// Fill in colour map blank, clear screen
 	this.colMap = new Array(sizex);
-	for (i = 0; i < this.colMap.length; i++){
+	for (i = 0; i < this.colMap.length; i++)
 		this.colMap[i] = new Array(sizey);
-		for (j = 0; j < this.colMap[i].length; j++){
-			this.drawCell(i, j, this.bgcolor);	
-			this.colMap[i][j] = this.bgcolor;
-		}
-	}
+	this.clear();
 
 	this.drawMap = function drawMap(){
 		// Draws the colMap out
@@ -46,6 +43,7 @@ function Map(canvas, sizex, sizey, bgcolor){
 
 	this.drawThings = function drawThings(things){
 		// Takes a list of things to draw, must be co-ordinates and a colour value
+	this.clear();
 		for (i = 0; i < things.length; i++)
 				this.drawCell(things[i].x, things[i].y, things[i].colour);
 	}

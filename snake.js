@@ -10,28 +10,42 @@ function Snake(startpos, colour){
 
 	var self = this;
 	this.dir = 0; // Right
+	this.cdir = 0;
 	this.segs = [];
 	this.segs.push(startpos);
 	this.col = colour;
+
+	this.addLen = function addLen(){
+		this.segs.push( this.segs[ this.segs.length - 1] );
+	}
+
+	this.changeDir = function changeDir(ndir){
+		if (typeof ndir === "string"){
+			
+		}
+		switch 
+	}
 
 	this.move = function move(eating){
 		// Moves the snake
 		x = this.segs[0].x;
 		y = this.segs[0].y;
 
+		this.addLen();
+
 		// Switch direction, do not allow going in reverse
-		switch(this.dir){
+		switch(this.cdir){
 			case 0:// Right
-				(this.dir !== 2)? x++: pass;
+				if (this.dir !== 2) x++;
 				break;
 			case 1:// Down
-				(this.dir !== 3) ? y++ : pass;
+				if (this.dir !== 3)  y++;
 				break;
 			case 2:// Right
-				(this.dir !== 0)? x-- : pass;
+				if (this.dir !== 0) x--;
 				break;
 			case 3://Up
-				(this.dir !== 1) ? y-- : pass;
+				if (this.dir !== 1) y--;
 				break;
 			default:
 				console.log("Something broke, derpderp, direction was", this.dir);
