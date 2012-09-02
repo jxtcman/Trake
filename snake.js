@@ -21,9 +21,28 @@ function Snake(startpos, colour){
 
 	this.changeDir = function changeDir(ndir){
 		if (typeof ndir === "string"){
-			
+			ndir = ndir.toLowerCase();
+			if (ndir === "right") ndir = 0;
+			else if (ndir === "down") ndir = 1;
+			else if (ndir === "left") ndir = 2;
+			else if (ndir === "up") ndir = 3;
+			else console.log("Changed to a bad direction: ", ndir);
 		}
-		switch 
+
+		switch (ndir){
+			case 0:
+				if (this.dir !== 2) this.dir = ndir;
+				break;
+			case 1:
+				if (this.dir !== 3) this.dir = ndir;
+				break;
+			case 2:
+				if (this.dir !== 0) this.dir = ndir;
+				break;
+			case 3:
+				if (this.dir !== 1) this.dir = ndir;
+				break;
+		}
 	}
 
 	this.move = function move(eating){
@@ -31,29 +50,27 @@ function Snake(startpos, colour){
 		x = this.segs[0].x;
 		y = this.segs[0].y;
 
-		this.addLen();
-
 		// Switch direction, do not allow going in reverse
-		switch(this.cdir){
+		switch(this.dir){
 			case 0:// Right
-				if (this.dir !== 2) x++;
+				x++;
 				break;
 			case 1:// Down
-				if (this.dir !== 3)  y++;
+				y++;
 				break;
 			case 2:// Right
-				if (this.dir !== 0) x--;
+				x--;
 				break;
 			case 3://Up
-				if (this.dir !== 1) y--;
+				y--;
 				break;
 			default:
 				console.log("Something broke, derpderp, direction was", this.dir);
 		}
-		if (!eating) this.segs.pop();
+		this.segs.pop();
 		this.segs.unshift(Seg(x, y));
 		
-		return this.segs[0];
+		return this.segs[0]; // returns new head position
 		
 	}
 

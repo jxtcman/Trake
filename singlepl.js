@@ -3,7 +3,7 @@
 
 function newFood(points){
 // Creates a new piece of food, returns food object
-	return {points: points, x: Math.random() * map.width, y: Math.random() * map.height};
+	return {points: points, x: Math.floor(Math.random() * map.width), y: Math.floor(Math.random() * map.height)};
 }
 
 function update(){
@@ -16,9 +16,10 @@ function update(){
 		|| (player.segs[0].y === map.height)) dead = true;
 	else {
 		// If the player isn't dead, update the game logic
-		if ((player.segs[0].x == food.x) && (player.segs[0].y == food.y)){
-			score += food.points;
+		if ((player.segs[0].x === food.x) && (player.segs[0].y === food.y)){
+			score += 1;
 			food = newFood(1);
+			player.addLen();
 		}
 	}
 }
@@ -33,38 +34,24 @@ function round(){
 	// What to execute each round
 	update();
 	draw();
-	if (dead) clearInterval(timeID);
+	if (dead) onDead();
 }
 
+function onDead(){
+	// Do things when the player dies
+	clearInterval(timeID);
+	if (confirm("Congratumalations! You scored " + String(score) + " points! Want to try again?")) window.onload();
+}
 
 var timeID;
+var score;
 window.onload = function(){
+	score = 0;
 	dead = false;
 	player = new Snake(Seg(5, 6), "blue");
-	map = new Map(document.getElementById("game"), 100, 100, "black");
+	map = new Map(document.getElementById("game"), 50, 50, "black");
 	food = newFood();
 	timeID = setInterval("round()", 1000 / 30);
-// Handle key bindings
-$('body').keydown( function(e){
-		switch (e.keyCode){
-			case 39 || 68:
-				player.dir = 0;
-				e.preventDefault(); // Stop page from moving
-				break;
-			case 40, 83:
-				player.dir = 1;
-				e.preventDefault(); // Stop page from moving
-				break;
-			case 37, 64:
-				player.dir = 2;
-				e.preventDefault(); // Stop page from moving
-				break;
-			case 38, 87:
-				player.dir = 3;
-				e.preventDefault(); // Stop page from moving
-				break;
-			default:
-				return;
-		}
-	});
-}
+	// Handle key bindings
+	$('body').keydown(udlr);
+ }
