@@ -1,0 +1,19 @@
+#Trake
+
+My snakes/tron game for bots , inspired by [Eric Wieser's Snake or Break](http://snakes.eric-wieser.tk) and the bots written for it. Single player version.
+
+To run:
+
+First, download and install dependancies
+
+'''
+git clone git://github.com/jxtcman/Trake.git
+cd ./Trake/code
+npm install
+'''
+
+Then run server.js:
+
+'''
+node server.js
+'''
